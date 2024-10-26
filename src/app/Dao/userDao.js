@@ -170,7 +170,7 @@ async function getMain(
     SELECT P.postId, P.createdAt as postingTime, postUserId, U.nickName, U.profileImageUrl, title,
             runningTime,
             gatheringTime,
-           gatherLongitude, gatherLatitude, locationInfo, runningTag,concat(ageMin,'-',ageMax) as age,
+           gatherLongitude, gatherLatitude, placeName, runningTag,concat(ageMin,'-',ageMax) as age,
            case when runnerGender='A' then '전체'
            else
            case when runnerGender='M' then '남성'
@@ -306,7 +306,7 @@ async function getBM(connection, userId) {
     SELECT P.postId, P.createdAt as postingTime, postUserId, U.nickName, U.profileImageUrl, title,
             runningTime,
             gatheringTime,
-           gatherLongitude, gatherLatitude, locationInfo, concat(ageMin,'-',ageMax) as age,
+           gatherLongitude, gatherLatitude, placeName, concat(ageMin,'-',ageMax) as age,
            case when runnerGender='A' then '전체'
            else
            case when runnerGender='M' then '남성'
@@ -578,7 +578,7 @@ async function getRunningInfo(connection, userId) {
 async function getMyRunning(connection, userId) {
   const Query = `
     SELECT P.postId, postUserId, U.nickName, U.profileImageUrl, title, runningTime, 
-    gatheringTime, locationInfo, runningTag, concat(ageMin,'-',ageMax) as age, P.pace, afterParty,
+    gatheringTime, placeName, runningTag, concat(ageMin,'-',ageMax) as age, P.pace, afterParty,
     case when runnerGender='A' then '전체'
       else
     case when runnerGender='M' then '남성'
@@ -605,7 +605,7 @@ async function getMyRunning(connection, userId) {
 async function getMyPosting(connection, userId) {
   const query1 = `
     SELECT P.postId, postUserId, U.nickName, U.profileImageUrl, title, runningTime, gatheringTime,
-    locationInfo, runningTag,concat(ageMin,'-',ageMax) as age, P.pace, afterParty,
+    placeName, runningTag,concat(ageMin,'-',ageMax) as age, P.pace, afterParty,
     case when runnerGender='A' then '전체'
       else
     case when runnerGender='M' then '남성'
@@ -692,7 +692,7 @@ async function getMain2(
 ) {
   const getMainQuery = `
     SELECT P.postId, P.createdAt as postingTime, postUserId, U.nickName, U.profileImageUrl, title, runningTime,
-    gatheringTime, gatherLongitude, gatherLatitude, locationInfo, runningTag,concat(ageMin,'-',ageMax) as age,
+    gatheringTime, gatherLongitude, gatherLatitude, placeName, runningTag,concat(ageMin,'-',ageMax) as age,
     case when runnerGender='A' then '전체'
       else
     case when runnerGender='M' then '남성'
@@ -743,7 +743,7 @@ async function getMain2Login(
 ) {
   const getMainQuery = `
     SELECT P.postId, P.createdAt as postingTime, postUserId, U.nickName, U.profileImageUrl, title, runningTime,
-    gatheringTime, gatherLongitude, gatherLatitude, locationInfo, runningTag,concat(ageMin,'-',ageMax) as age,
+    gatheringTime, gatherLongitude, gatherLatitude, placeName, runningTag,concat(ageMin,'-',ageMax) as age,
     case when runnerGender='A' then '전체'
       else
     case when runnerGender='M' then '남성'
@@ -778,7 +778,7 @@ async function getMain2Login(
 async function getBM2(connection, userId) {
   const getBMQuery = `
   SELECT P.postId, P.createdAt as postingTime, postUserId, U.nickName, U.profileImageUrl, title,
-  runningTime, gatheringTime, gatherLongitude, gatherLatitude, locationInfo, runningTag, concat(ageMin,'-',ageMax) as age,
+  runningTime, gatheringTime, gatherLongitude, gatherLatitude, placeName, runningTag, concat(ageMin,'-',ageMax) as age,
   case when runnerGender='A' then '전체'
   else
   case when runnerGender='M' then '남성'
@@ -806,7 +806,7 @@ async function getBM2(connection, userId) {
 async function getMyPosting2(connection, userId) {
   const query = `
   SELECT P.postId, P.createdAt as postingTime, postUserId, U.nickName, U.profileImageUrl, title, runningTime,
-  gatheringTime, gatherLongitude, gatherLatitude, locationInfo, runningTag,concat(ageMin,'-',ageMax) as age,
+  gatheringTime, gatherLongitude, gatherLatitude, placeName, runningTag,concat(ageMin,'-',ageMax) as age,
   case when runnerGender='A' then '전체'
     else
   case when runnerGender='M' then '남성'
@@ -834,7 +834,7 @@ async function getMyPosting2(connection, userId) {
 async function getMyRunning2(connection, userId) {
   const Query = `
   SELECT P.postId, P.createdAt as postingTime, postUserId, U.nickName, U.profileImageUrl, title, runningTime,
-  gatheringTime, gatherLongitude, gatherLatitude, locationInfo, runningTag,concat(ageMin,'-',ageMax) as age,
+  gatheringTime, gatherLongitude, gatherLatitude, placeName, runningTag,concat(ageMin,'-',ageMax) as age,
   case when runnerGender='A' then '전체'
     else
   case when runnerGender='M' then '남성'

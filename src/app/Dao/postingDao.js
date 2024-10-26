@@ -1,7 +1,7 @@
 // 게시글 생성
 async function createPosting(connection, insertPostingParams) {
   const insertPostingQuery = `
-INSERT INTO Posting(postUserId, title, gatheringTime, runningTime, gatherLongitude, gatherLatitude, locationInfo, placeName, placeExplain, runningTag, ageMin, ageMax, peopleNum, contents, runnerGender, pace, afterParty)
+INSERT INTO Posting(postUserId, title, gatheringTime, runningTime, gatherLongitude, gatherLatitude, placeName, placeAddress, placeExplain, runningTag, ageMin, ageMax, peopleNum, contents, runnerGender, pace, afterParty)
 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
                `;
   const insertPostingRow = await connection.query(
@@ -82,7 +82,7 @@ SELECT P.postId, P.createdAt as postingTime, postUserId,
      concat(ageMin,'-',ageMax) as age,
      CONCAT('최대 ',peopleNum,'명') as peopleNum,
      contents,
-     gatherLongitude, gatherLatitude, locationInfo, whetherEnd
+     gatherLongitude, gatherLatitude, placeName, whetherEnd
 FROM Posting P
 INNER JOIN User U on U.userId = P.postUserId
 INNER JOIN Running R on R.postId = P.postId
@@ -205,7 +205,7 @@ async function closePosting(connection, postId) {
 async function patchPosting(connection, patchPostingParams) {
   const patchPostingQuery = `
   UPDATE Posting SET title = ?, gatheringTime = ?, runningTime = ?, gatherLongitude = ?, gatherLatitude = ?,
-                     locationInfo = ?, placeName = ?, placeExplain = ?, runningTag = ?, ageMin = ?, ageMax = ?, 
+                     placeName = ?, placeAddress = ?, placeExplain = ?, runningTag = ?, ageMin = ?, ageMax = ?, 
                      peopleNum = ?, contents = ?, runnerGender = ?, pace = ?, afterParty = ?
   WHERE postId = ?;
   `;
@@ -278,7 +278,7 @@ async function getPosting2(connection, postId) {
   const getPostingQuery = `
   SELECT P.postId, P.createdAt as postingTime, postUserId, nickName, profileImageUrl,
        title, runningTime, gatheringTime, gatherLongitude, gatherLatitude, 
-       locationInfo, placeName, placeExplain, P.pace, afterParty,
+       placeName, placeAddress, placeExplain, P.pace, afterParty,
        case when runningTag = 'A'
            then '퇴근 후'
         else case when runningTag = 'B'
