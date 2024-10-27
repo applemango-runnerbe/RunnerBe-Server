@@ -107,7 +107,7 @@ async function findDuplicateRunningDate(connection, runnedDate, userId) {
 // 날짜(월)에 해당되는 단체 러닝로그 작성 가능 날짜 수집
 async function getGatheringByPeriod(connection, year, month, userId, userId) {
   const selectGatheringByPeriodQuery = `
-    SELECT RP.gatheringId, P.gatheringTime
+    SELECT DISTINCT RP.gatheringId, P.gatheringTime
     FROM RunningPeople RP
     INNER JOIN Running R ON RP.gatheringId = R.gatheringId
     INNER JOIN Posting P ON R.postId = P.postId
