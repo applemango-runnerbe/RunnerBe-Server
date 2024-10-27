@@ -67,6 +67,13 @@ exports.findGatheringId = async function (logId) {
 exports.getRunningLog = async function (year, month, userId) {
   const connection = await pool.getConnection(async (conn) => conn);
   try {
+    const isExistGathering = await runningLogDao.getGatheringByPeriod(
+      connection,
+      year,
+      month,
+      userId,
+      userId
+    );
     const groupRunningCount = await runningLogDao.getMyGroupRunningCount(
       connection,
       year,
@@ -89,7 +96,7 @@ exports.getRunningLog = async function (year, month, userId) {
       userId
     );
 
-    const finalResult = { totalCount, myRunningLog };
+    const finalResult = { isExistGathering, totalCount, myRunningLog };
     return finalResult;
   } catch (err) {
     await logger.error(

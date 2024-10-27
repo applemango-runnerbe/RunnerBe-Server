@@ -104,6 +104,25 @@ async function findDuplicateRunningDate(connection, runnedDate, userId) {
   return row;
 }
 
+// 날짜(월)에 해당되는 단체 러닝로그 작성 가능 날짜 수집
+async function getGatheringByPeriod(connection, year, month, userId, userId) {
+  const selectGatheringByPeriodQuery = `
+    SELECT RP.gatheringId, P.gatheringTime
+    FROM RunningPeople RP
+    INNER JOIN Running R ON RP.gatheringId = R.gatheringId
+    INNER JOIN Posting P ON R.postId = P.postId
+    WHERE YEAR(P.gatheringTime) = ? AND MONTH(P.gatheringTime) = ?
+          AND (RP.userId = ? OR P.postUserId = ?);
+  `;
+  const [row] = await connection.query(selectGatheringByPeriodQuery, [
+    year,
+    month,
+    userId,
+    userId,
+  ]);
+  return row;
+}
+
 // 날짜(월)에 해당하는 크루 러닝 카운트 수집
 async function getMyGroupRunningCount(connection, year, month, userId) {
   const selectGroupRunningCountQuery = `
@@ -258,6 +277,7 @@ module.exports = {
   checkWriter,
   checkPosting,
   findDuplicateRunningDate,
+  getGatheringByPeriod,
   getMyGroupRunningCount,
   getMyPersonalRunningCount,
   getMyRunning,
