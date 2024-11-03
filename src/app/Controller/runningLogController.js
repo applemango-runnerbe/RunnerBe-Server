@@ -32,8 +32,8 @@ exports.createPostingLog = async function (req, res) {
   if (!userId) return res.send(response(baseResponse.USER_USERID_EMPTY));
   if (!runningDate) return res.send(response(baseResponse.RUNNING_DATE_EMPTY));
   if (!stampCode) return res.send(response(baseResponse.STAMP_CODE_EMPTY));
-  if (!weatherDegree)
-    return res.send(response(baseResponse.WEATHER_DEGREE_EMPTY));
+  // if (!weatherDegree)
+  //   return res.send(response(baseResponse.WEATHER_DEGREE_EMPTY));
 
   // 길이 체크
   if (contents) {
@@ -95,8 +95,8 @@ exports.updatePostingLog = async function (req, res) {
   if (!logId) return res.send(response(baseResponse.LOGID_EMPTY));
   if (!runningDate) return res.send(response(baseResponse.RUNNING_DATE_EMPTY));
   if (!stampCode) return res.send(response(baseResponse.STAMP_CODE_EMPTY));
-  if (!weatherDegree)
-    return res.send(response(baseResponse.WEATHER_DEGREE_EMPTY));
+  // if (!weatherDegree)
+  //   return res.send(response(baseResponse.WEATHER_DEGREE_EMPTY));
 
   // 길이 체크
   if (contents) {
