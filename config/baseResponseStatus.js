@@ -687,7 +687,7 @@ module.exports = {
   GENDER_NOT_ALLOWED: {
     isSuccess: false,
     code: 2096,
-    message: "자신과 다른 성별의 글을 게시할 수 없습니다.",
+    message: "내 성별과 다른 성별만 모집하는 글은 등록할 수 없어요.",
   },
 
   PAGE_EMPTY: {
