@@ -456,6 +456,8 @@ exports.getMyPage2 = async function (userId, mobileType, appVersion) {
         myPosting[i].profileUrlList = profileUrlList;
         myPosting[i].runnerList = runnerList;
         myPosting[i].attendTimeOver = attendTimeOver;
+
+        console.log("My Posting : ", profileUrlList);
       }
     }
 
@@ -465,6 +467,8 @@ exports.getMyPage2 = async function (userId, mobileType, appVersion) {
         const postId = myRunning[i].postId;
         const body = await userDao.getProfileUrl(connection, postId);
         myRunning[i].profileUrlList = body;
+
+        console.log("My Running : ", profileUrlList);
       }
     }
 
