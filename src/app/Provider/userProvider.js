@@ -447,17 +447,17 @@ exports.getMyPage2 = async function (userId, mobileType, appVersion) {
         myPosting[i].DISTANCE = null;
         myPosting[i].attendance = null;
         const postId = myPosting[i].postId;
-        const profileUrlList = await userDao.getProfileUrl(connection, postId);
+        // const profileUrlList = await userDao.getProfileUrl(connection, postId);
         const runnerList = await postingDao.getRunner(connection, postId);
         const attendTimeOver = await postingDao.getAttendTimeOver(
           connection,
           postId
         );
-        myPosting[i].profileUrlList = profileUrlList;
+        // myPosting[i].profileUrlList = profileUrlList;
         myPosting[i].runnerList = runnerList;
         myPosting[i].attendTimeOver = attendTimeOver;
 
-        console.log("My Posting : ", profileUrlList);
+        // console.log("My Posting : ", profileUrlList);
       }
     }
 
@@ -465,10 +465,10 @@ exports.getMyPage2 = async function (userId, mobileType, appVersion) {
       for (i = 0; i < myRunning.length; i++) {
         myRunning[i].DISTANCE = null;
         const postId = myRunning[i].postId;
-        const body = await userDao.getProfileUrl(connection, postId);
-        myRunning[i].profileUrlList = body;
+        // const body = await userDao.getProfileUrl(connection, postId);
+        // myRunning[i].profileUrlList = body;
 
-        console.log("My Running : ", profileUrlList);
+        // console.log("My Running : ", profileUrlList);
       }
     }
 
