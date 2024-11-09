@@ -816,6 +816,12 @@ module.exports = {
     message: "러닝로그를 작성하려는 날짜에 이미 로그게시물이 있습니다.",
   },
 
+  GATHERINGID_EMPTY: {
+    isSuccess: false,
+    code: 2119,
+    message: "러닝모임 ID를 입력해주세요.",
+  },
+
   // ----------------------------
 
   // Response error
