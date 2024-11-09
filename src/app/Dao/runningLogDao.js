@@ -41,8 +41,8 @@ async function deleteRunningLog(connection, logId) {
 // 상대방에게 러닝로그 스탬프 찍기
 async function createRunningLogStamp(connection, insertPostingLogStampParams) {
   const insertRunningLogStampQuery = `
-    INSERT INTO RunningLogStamp(logId, gatheringId, userId, targetId, stampCode)
-    VALUES (?, ?, ?, ?, ?);
+    INSERT INTO RunningLogStamp(gatheringId, userId, targetId, stampCode)
+    VALUES (?, ?, ?, ?);
   `;
   const insertRunningLogRow = await connection.query(
     insertRunningLogStampQuery,
@@ -57,7 +57,7 @@ async function changeRunningLogStamp(connection, changeLogStampParams) {
   const changeStampQuery = `
     UPDATE RunningLogStamp
     SET stampCode = ?
-    WHERE logId = ? AND userId = ? AND targetId = ?;
+    WHERE gatheringId = ? AND userId = ? AND targetId = ?;
   `;
 
   const changeStampRow = await connection.query(

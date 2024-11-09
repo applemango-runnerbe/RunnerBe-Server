@@ -38,14 +38,14 @@ module.exports = function (app) {
 
   // 52. 함께한 러너에게 스탬프 찍기 API
   app.post(
-    "/runninglogs/:userId/partners/:logId",
+    "/runninglogs/:userId/partners/:gatheringId",
     jwtMiddleware,
     runningLog.giveStampToPartners
   );
 
   // 53. 함께한 러너에게 스탬프 찍기 수정 API
   app.patch(
-    "/runninglogs/:userId/partners/:logId",
+    "/runninglogs/:userId/partners/:gatheringId",
     jwtMiddleware,
     runningLog.changeStampToPartners
   );

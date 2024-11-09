@@ -148,16 +148,18 @@ exports.dropPosting = async function (logId) {
 };
 
 // 함께한 러너에게 스탬프 찍기
-exports.postingStamp = async function (logId, userId, targetId, stampCode) {
+exports.postingStamp = async function (
+  gatheringId,
+  userId,
+  targetId,
+  stampCode
+) {
   const connection = await pool.getConnection(async (conn) => conn);
   try {
     //start Transaction
     await connection.beginTransaction();
 
-    const gatheringId = await runningLogProvider.findGatheringId(logId);
-
     const insertPostingLogStampParams = [
-      logId,
       gatheringId,
       userId,
       targetId,
@@ -186,7 +188,7 @@ exports.postingStamp = async function (logId, userId, targetId, stampCode) {
 
 // 함께한 러너에게 찍은 스탬프 수정
 exports.changeRunningStamp = async function (
-  logId,
+  gatheringId,
   userId,
   targetId,
   stampCode
@@ -196,7 +198,7 @@ exports.changeRunningStamp = async function (
     //start Transaction
     await connection.beginTransaction();
 
-    const changeLogStampParams = [stampCode, logId, userId, targetId];
+    const changeLogStampParams = [stampCode, gatheringId, userId, targetId];
 
     await runningLogDao.changeRunningLogStamp(connection, changeLogStampParams);
 

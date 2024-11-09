@@ -245,7 +245,7 @@ exports.getRunningPartners = async function (req, res) {
 
   // 빈 값 체크
   if (!userId) return res.send(response(baseResponse.USER_USERID_EMPTY));
-  if (!gatheringId) return res.send(response(baseResponse.LOGID_EMPTY));
+  if (!gatheringId) return res.send(response(baseResponse.GATHERINGID_EMPTY));
 
   // //게시글 있는지 확인
   // const checkPostingResult = await runningLogProvider.checkPosting(logId);
@@ -262,7 +262,7 @@ exports.getRunningPartners = async function (req, res) {
 /**
  * API No. 52
  * API Name : 함께한 러너에게 스탬프 찍기 API
- * [POST] /runninglogs/:userId/partners/:logId
+ * [POST] /runninglogs/:userId/partners/:gatheringId
  */
 exports.giveStampToPartners = async function (req, res) {
   /**
@@ -270,45 +270,39 @@ exports.giveStampToPartners = async function (req, res) {
    * Body: partnerId, stampCode
    */
   const userId = req.params.userId;
-  const logId = req.params.logId;
+  const gatheringId = req.params.gatheringId;
   const targetId = req.body.targetId;
   const stampCode = req.body.stampCode;
   const userIdFromJWT = req.verifiedToken.userId;
 
   // 필수 값 : 빈 값 체크 (text를 제외한 나머지)
   if (!userId) return res.send(response(baseResponse.USER_USERID_EMPTY));
-  if (!logId) return res.send(response(baseResponse.LOGID_EMPTY));
+  if (!gatheringId) return res.send(response(baseResponse.GATHERINGID_EMPTY));
   if (!targetId) return res.send(response(baseResponse.TARGET_ID_EMPTY));
   if (!stampCode) return res.send(response(baseResponse.STAMP_CODE_EMPTY));
 
-  //jwt로 들어온 userId가 작성자 id와 일치하는지 확인
-  const checkWriter = await runningLogProvider.checkLogWriter(
-    logId,
-    userIdFromJWT
-  );
-
-  if (checkWriter.length == 0) {
-    return res.send(response(baseResponse.USER_NOT_WRITER));
+  // if (checkWriter.length == 0) {
+  //   return res.send(response(baseResponse.USER_NOT_WRITER));
+  // } else {
+  //jwt로 userId 확인
+  if (userIdFromJWT != userId) {
+    return res.send(errResponse(baseResponse.USER_ID_NOT_MATCH));
   } else {
-    //jwt로 userId 확인
-    if (userIdFromJWT != userId) {
-      return res.send(errResponse(baseResponse.USER_ID_NOT_MATCH));
-    } else {
-      const giveStampResponse = await runningLogService.postingStamp(
-        logId,
-        userId,
-        targetId,
-        stampCode
-      );
-      return res.send(giveStampResponse);
-    }
+    const giveStampResponse = await runningLogService.postingStamp(
+      gatheringId,
+      userId,
+      targetId,
+      stampCode
+    );
+    return res.send(giveStampResponse);
   }
+  // }
 };
 
 /**
  * API No. 53
  * API Name : 함께한 러너에게 스탬프 찍기 수정 API
- * [PATCH] /runninglogs/:userId/partners/:logId
+ * [PATCH] /runninglogs/:userId/partners/:gatheringId
  */
 exports.changeStampToPartners = async function (req, res) {
   /**
@@ -316,39 +310,33 @@ exports.changeStampToPartners = async function (req, res) {
    * Body: partnerId, stampCode
    */
   const userId = req.params.userId;
-  const logId = req.params.logId;
+  const gatheringId = req.params.gatheringId;
   const targetId = req.body.targetId;
   const stampCode = req.body.stampCode;
   const userIdFromJWT = req.verifiedToken.userId;
 
   // 필수 값 : 빈 값 체크 (text를 제외한 나머지)
   if (!userId) return res.send(response(baseResponse.USER_USERID_EMPTY));
-  if (!logId) return res.send(response(baseResponse.LOGID_EMPTY));
+  if (!gatheringId) return res.send(response(baseResponse.GATHERINGID_EMPTY));
   if (!targetId) return res.send(response(baseResponse.TARGET_ID_EMPTY));
   if (!stampCode) return res.send(response(baseResponse.STAMP_CODE_EMPTY));
 
-  //jwt로 들어온 userId가 작성자 id와 일치하는지 확인
-  const checkWriter = await runningLogProvider.checkLogWriter(
-    logId,
-    userIdFromJWT
-  );
-
-  if (checkWriter.length == 0) {
-    return res.send(response(baseResponse.USER_NOT_WRITER));
+  // if (checkWriter.length == 0) {
+  //   return res.send(response(baseResponse.USER_NOT_WRITER));
+  // } else {
+  //jwt로 userId 확인
+  if (userIdFromJWT != userId) {
+    return res.send(errResponse(baseResponse.USER_ID_NOT_MATCH));
   } else {
-    //jwt로 userId 확인
-    if (userIdFromJWT != userId) {
-      return res.send(errResponse(baseResponse.USER_ID_NOT_MATCH));
-    } else {
-      const changeStampResponse = await runningLogService.changeRunningStamp(
-        logId,
-        userId,
-        targetId,
-        stampCode
-      );
-      return res.send(changeStampResponse);
-    }
+    const changeStampResponse = await runningLogService.changeRunningStamp(
+      gatheringId,
+      userId,
+      targetId,
+      stampCode
+    );
+    return res.send(changeStampResponse);
   }
+  // }
 };
 
 /**
