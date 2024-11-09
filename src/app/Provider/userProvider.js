@@ -379,15 +379,15 @@ exports.getMain2Login = async function (
       pageSize
     );
 
-    if (getMainResult.length !== 0) {
-      for (i = 0; i < getMainResult.length; i++) {
-        getMainResult[i].userId = null;
-        getMainResult[i].attendance = null;
-        const postId = getMainResult[i].postId;
-        const body = await userDao.getProfileUrl(connection, postId);
-        getMainResult[i].profileUrlList = body;
-      }
-    }
+    // if (getMainResult.length !== 0) {
+    //   for (i = 0; i < getMainResult.length; i++) {
+    //     getMainResult[i].userId = null;
+    //     getMainResult[i].attendance = null;
+    //     const postId = getMainResult[i].postId;
+    //     const body = await userDao.getProfileUrl(connection, postId);
+    //     getMainResult[i].profileUrlList = body;
+    //   }
+    // }
 
     return getMainResult;
   } catch (err) {
@@ -442,35 +442,35 @@ exports.getMyPage2 = async function (userId, mobileType, appVersion) {
     const myPosting = await userDao.getMyPosting2(connection, userId);
     const myRunning = await userDao.getMyRunning2(connection, userId);
 
-    if (myPosting.length !== 0) {
-      for (i = 0; i < myPosting.length; i++) {
-        myPosting[i].DISTANCE = null;
-        myPosting[i].attendance = null;
-        const postId = myPosting[i].postId;
-        const profileUrlList = await userDao.getProfileUrl(connection, postId);
-        const runnerList = await postingDao.getRunner(connection, postId);
-        const attendTimeOver = await postingDao.getAttendTimeOver(
-          connection,
-          postId
-        );
-        myPosting[i].profileUrlList = profileUrlList;
-        myPosting[i].runnerList = runnerList;
-        myPosting[i].attendTimeOver = attendTimeOver;
+    // if (myPosting.length !== 0) {
+    //   for (i = 0; i < myPosting.length; i++) {
+    //     myPosting[i].DISTANCE = null;
+    //     myPosting[i].attendance = null;
+    //     const postId = myPosting[i].postId;
+    //     const profileUrlList = await userDao.getProfileUrl(connection, postId);
+    //     const runnerList = await postingDao.getRunner(connection, postId);
+    //     const attendTimeOver = await postingDao.getAttendTimeOver(
+    //       connection,
+    //       postId
+    //     );
+    //     myPosting[i].profileUrlList = profileUrlList;
+    //     myPosting[i].runnerList = runnerList;
+    //     myPosting[i].attendTimeOver = attendTimeOver;
 
-        console.log("My Posting : ", profileUrlList);
-      }
-    }
+    //     console.log("My Posting : ", profileUrlList);
+    //   }
+    // }
 
-    if (myRunning.length !== 0) {
-      for (i = 0; i < myRunning.length; i++) {
-        myRunning[i].DISTANCE = null;
-        const postId = myRunning[i].postId;
-        const body = await userDao.getProfileUrl(connection, postId);
-        myRunning[i].profileUrlList = body;
+    // if (myRunning.length !== 0) {
+    //   for (i = 0; i < myRunning.length; i++) {
+    //     myRunning[i].DISTANCE = null;
+    //     const postId = myRunning[i].postId;
+    //     const body = await userDao.getProfileUrl(connection, postId);
+    //     myRunning[i].profileUrlList = body;
 
-        console.log("My Running : ", profileUrlList);
-      }
-    }
+    //     console.log("My Running : ", profileUrlList);
+    //   }
+    // }
 
     const finalResult = { myInfo, myPosting, myRunning };
 
