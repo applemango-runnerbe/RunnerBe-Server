@@ -448,13 +448,13 @@ exports.getMyPage2 = async function (userId, mobileType, appVersion) {
         myPosting[i].attendance = null;
         const postId = myPosting[i].postId;
         // const profileUrlList = await userDao.getProfileUrl(connection, postId);
-        const runnerList = await postingDao.getRunner(connection, postId);
+        // const runnerList = await postingDao.getRunner(connection, postId);
         const attendTimeOver = await postingDao.getAttendTimeOver(
           connection,
           postId
         );
         // myPosting[i].profileUrlList = profileUrlList;
-        myPosting[i].runnerList = runnerList;
+        // myPosting[i].runnerList = runnerList;
         myPosting[i].attendTimeOver = attendTimeOver;
 
         // console.log("My Posting : ", profileUrlList);
