@@ -112,7 +112,8 @@ async function getGatheringByPeriod(connection, year, month, userId, userId) {
     INNER JOIN Running R ON RP.gatheringId = R.gatheringId
     INNER JOIN Posting P ON R.postId = P.postId
     WHERE YEAR(P.gatheringTime) = ? AND MONTH(P.gatheringTime) = ?
-          AND (RP.userId = ? OR P.postUserId = ?);
+          AND (RP.userId = ? OR P.postUserId = ?)
+          AND P.gatheringTime <= DATE_ADD(NOW(), INTERVAL -3 HOUR);
   `;
   const [row] = await connection.query(selectGatheringByPeriodQuery, [
     year,
