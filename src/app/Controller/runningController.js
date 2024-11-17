@@ -49,9 +49,10 @@ exports.sendRequest = async function (req, res) {
     userId,
     postId
   );
-  if (checkAlreadyapplyNotD.length != 0) {
-    return res.send(response(baseResponse.ALREADY_APPLY));
-  }
+
+  // if (checkAlreadyapplyNotD.length != 0) {
+  //   return res.send(response(baseResponse.ALREADY_APPLY));
+  // }
   //반장 userId
 
   //jwt로 userId 확인
