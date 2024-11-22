@@ -440,6 +440,11 @@ exports.getMyPage2 = async function (userId, mobileType, appVersion) {
     }
 
     const myLogInfo = await runningLogDao.getUserRecentLog(connection, userId);
+    const myPossibleWritingLog = await runningLogDao.getUserPossibleWriting(
+      connection,
+      userId,
+      userId
+    );
 
     // const runningInfo = await userDao.getRunningInfo(connection, userId);
     const myPosting = await userDao.getMyPosting2(connection, userId);
@@ -475,7 +480,13 @@ exports.getMyPage2 = async function (userId, mobileType, appVersion) {
     //   }
     // }
 
-    const finalResult = { myInfo, myLogInfo, myPosting, myRunning };
+    const finalResult = {
+      myInfo,
+      myLogInfo,
+      myPossibleWritingLog,
+      myPosting,
+      myRunning,
+    };
 
     return finalResult;
   } catch (err) {

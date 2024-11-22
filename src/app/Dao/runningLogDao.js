@@ -183,6 +183,24 @@ async function getUserRecentLog(connection, userId) {
   return row;
 }
 
+// 마이페이지에서 보여주는 최근 3주간 단체 러닝로그 작성 가능 날짜 수집
+async function getUserPossibleWriting(connection, userId, userId) {
+  const selecttUserPossibleWritingQuery = `
+    SELECT DISTINCT RP.gatheringId, P.gatheringTime
+    FROM RunningPeople RP
+    INNER JOIN Running R ON RP.gatheringId = R.gatheringId
+    INNER JOIN Posting P ON R.postId = P.postId
+    WHERE (RP.userId = ? OR P.postUserId = ?)
+          AND P.gatheringTime <= DATE_ADD(NOW(), INTERVAL -3 HOUR)
+          AND P.gatheringTime >= DATE_ADD(NOW(), INTERVAL -3 WEEK);
+  `;
+  const [row] = await connection.query(selecttUserPossibleWritingQuery, [
+    userId,
+    userId,
+  ]);
+  return row;
+}
+
 // 러닝로그의 gatheringId 수집
 async function getGatheringId(connection, logId) {
   const selectGatheringIdQuery = `
@@ -282,6 +300,7 @@ module.exports = {
   getMyPersonalRunningCount,
   getMyRunning,
   getUserRecentLog,
+  getUserPossibleWriting,
   getGatheringId,
   getPartnerRunnerCount,
   getDetailRunningLog,
