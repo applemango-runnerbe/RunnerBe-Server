@@ -663,11 +663,19 @@ async function deleteUser(connection, userId) {
   const query5 = `
     DELETE FROM Bookmarks WHERE userId = ?;
     `;
+  const query6 = `
+    DELETE FROM RunningLog WHERE userId = ?;
+    `;
+  const query7 = `
+    DELETE FROM RunningLogStamp WHERE userId = ? OR targetId = ?;
+    `;
   const row1 = await connection.query(query1, userId);
   const row2 = await connection.query(query2, userId);
   const row3 = await connection.query(query3, userId);
   const row4 = await connection.query(query4, userId);
   const row5 = await connection.query(query5, userId);
+  const row6 = await connection.query(query6, userId);
+  const row7 = await connection.query(query7, userId);
 
   return 0;
 }
