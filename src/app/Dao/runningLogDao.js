@@ -239,6 +239,21 @@ async function getDetailRunningLog(connection, logId) {
   return row;
 }
 
+// 특정인이 누군가에게 스탬프를 준 기록이 있는 지 조회
+async function getCheckGivenStamp(connection, gatheringId, userId, targetId) {
+  const checkGivenStampQuery = `
+    SELECT stampCode
+    FROM RunningLogStamp
+    WHERE gatheringId = ? AND userId = ? AND targetId = ?;
+  `;
+  const [row] = await connection.query(checkGivenStampQuery, [
+    gatheringId,
+    userId,
+    targetId,
+  ]);
+  return row;
+}
+
 // 특정인이 받은 스탬프 목록 조회
 async function getDetailStampInfo(connection, gatheringId, targetId) {
   const selectDetailStampInfoQuery = `
@@ -304,6 +319,7 @@ module.exports = {
   getGatheringId,
   getPartnerRunnerCount,
   getDetailRunningLog,
+  getCheckGivenStamp,
   getDetailStampInfo,
   getPartnerRunners,
   selectStampList,
