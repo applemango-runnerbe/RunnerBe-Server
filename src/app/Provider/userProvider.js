@@ -469,16 +469,16 @@ exports.getMyPage2 = async function (userId, mobileType, appVersion) {
     //   }
     // }
 
-    if (myRunning.length !== 0) {
-      for (i = 0; i < myRunning.length; i++) {
-        myRunning[i].DISTANCE = null;
-        const postId = myRunning[i].postId;
-        const body = await userDao.getProfileUrl(connection, postId);
-        myRunning[i].profileUrlList = body;
+    // if (myRunning.length !== 0) {
+    //   for (i = 0; i < myRunning.length; i++) {
+    //     myRunning[i].DISTANCE = null;
+    //     const postId = myRunning[i].postId;
+    //     const body = await userDao.getProfileUrl(connection, postId);
+    //     myRunning[i].profileUrlList = body;
 
-        console.log("My Running : ", profileUrlList);
-      }
-    }
+    //     console.log("My Running : ", profileUrlList);
+    //   }
+    // }
 
     const finalResult = {
       myInfo,
