@@ -159,17 +159,33 @@ exports.postingStamp = async function (
     //start Transaction
     await connection.beginTransaction();
 
-    const insertPostingLogStampParams = [
+    const checkGivenStamp = await runningLogDao.getCheckGivenStamp(
+      connection,
       gatheringId,
       userId,
-      targetId,
-      stampCode,
-    ];
-
-    await runningLogDao.createRunningLogStamp(
-      connection,
-      insertPostingLogStampParams
+      targetId
     );
+
+    if (checkGivenStamp.length == 0) {
+      const insertPostingLogStampParams = [
+        gatheringId,
+        userId,
+        targetId,
+        stampCode,
+      ];
+
+      await runningLogDao.createRunningLogStamp(
+        connection,
+        insertPostingLogStampParams
+      );
+    } else {
+      const changeLogStampParams = [stampCode, gatheringId, userId, targetId];
+
+      await runningLogDao.changeRunningLogStamp(
+        connection,
+        changeLogStampParams
+      );
+    }
 
     // commit
     await connection.commit();
