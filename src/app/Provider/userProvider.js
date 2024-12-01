@@ -456,23 +456,23 @@ exports.getMyPage2 = async function (userId, mobileType, appVersion) {
         myPosting[i].DISTANCE = null;
         myPosting[i].attendance = null;
         const postId = myPosting[i].postId;
-        // const profileUrlList = await userDao.getProfileUrl(connection, postId);
-        // const runnerList = await postingDao.getRunner(connection, postId);
-        const checkFullPeople = await runningDao.checkFullPeople(
-          connection,
-          postId
-        );
+        const profileUrlList = await userDao.getProfileUrl(connection, postId);
+        const runnerList = await postingDao.getRunner(connection, postId);
+        // const checkFullPeople = await runningDao.checkFullPeople(
+        //   connection,
+        //   postId
+        // );
         const attendTimeOver = await postingDao.getAttendTimeOver(
           connection,
           postId
         );
-        // myPosting[i].profileUrlList = profileUrlList;
-        // myPosting[i].runnerList = runnerList;
-        if (checkFullPeople) {
-          myPosting[i].checkFullPeople = "Y";
-        } else {
-          myPosting[i].checkFullPeople = "N";
-        }
+        myPosting[i].profileUrlList = profileUrlList;
+        myPosting[i].runnerList = runnerList;
+        // if (checkFullPeople) {
+        //   myPosting[i].checkFullPeople = "Y";
+        // } else {
+        //   myPosting[i].checkFullPeople = "N";
+        // }
         myPosting[i].attendTimeOver = attendTimeOver;
       }
     }
@@ -481,18 +481,18 @@ exports.getMyPage2 = async function (userId, mobileType, appVersion) {
       for (i = 0; i < myRunning.length; i++) {
         myRunning[i].DISTANCE = null;
         const postId = myRunning[i].postId;
-        // const body = await userDao.getProfileUrl(connection, postId);
-        const checkFullPeople = await runningDao.checkFullPeople(
-          connection,
-          postId
-        );
+        const body = await userDao.getProfileUrl(connection, postId);
+        // const checkFullPeople = await runningDao.checkFullPeople(
+        //   connection,
+        //   postId
+        // );
 
-        // myRunning[i].profileUrlList = body;
-        if (checkFullPeople) {
-          myRunning[i].checkFullPeople = "Y";
-        } else {
-          myRunning[i].checkFullPeople = "N";
-        }
+        myRunning[i].profileUrlList = body;
+        // if (checkFullPeople) {
+        //   myRunning[i].checkFullPeople = "Y";
+        // } else {
+        //   myRunning[i].checkFullPeople = "N";
+        // }
       }
     }
 
