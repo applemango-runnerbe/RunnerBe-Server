@@ -123,20 +123,21 @@ exports.getDetailRunningLog = async function (userId, logId) {
     );
 
     let gatheringCount;
+    let gotStamp;
     if (getGatheringId) {
       gatheringCount = await runningLogDao.getPartnerRunnerCount(
         connection,
         getGatheringId
       );
+      gotStamp = await runningLogDao.getDetailStampInfo(
+        connection,
+        getGatheringId,
+        userId
+      );
     } else {
       gatheringCount = 0;
+      gotStamp = [];
     }
-
-    const gotStamp = await runningLogDao.getDetailStampInfo(
-      connection,
-      getGatheringId,
-      userId
-    );
 
     const finalResult = { detailRunningLog, gatheringCount, gotStamp };
     return finalResult;

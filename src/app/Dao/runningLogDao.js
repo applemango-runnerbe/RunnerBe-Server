@@ -257,11 +257,11 @@ async function getCheckGivenStamp(connection, gatheringId, userId, targetId) {
 // 특정인이 받은 스탬프 목록 조회
 async function getDetailStampInfo(connection, gatheringId, targetId) {
   const selectDetailStampInfoQuery = `
-    SELECT RS.userId, R.logId, U.nickname, U.profileImageUrl, RS.stampCode
+    SELECT U.userId, U.nickname, U.profileImageUrl, R.logId, RS.stampCode
     FROM RunningLogStamp RS
     INNER JOIN User U on U.userId = RS.userId
-    LEFT OUTER JOIN RunningLog R on R.userId = RS.userId AND R.gatheringId = ?
-    WHERE RS.targetId = ?;
+    LEFT OUTER JOIN RunningLog R on R.userId = RS.userId AND R.gatheringId = RS.gatheringId
+    WHERE RS.gatheringId = ? AND RS.targetId = ?;
   `;
   const [row] = await connection.query(selectDetailStampInfoQuery, [
     gatheringId,
