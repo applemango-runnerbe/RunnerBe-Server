@@ -862,7 +862,7 @@ async function getMyRunning2(connection, userId) {
   INNER JOIN (SELECT * FROM RunningPeople WHERE userId = ?) RPP on R.gatheringId = RPP.gatheringId
   INNER JOIN (select R.gatheringId, IF(COUNT(*) = SUM(IF(whetherCheck = 'Y', 1, 0)), 'Y', 'N') as whetherCheck from RunningPeople
   inner join Running R on RunningPeople.gatheringId = R.gatheringId group by R.gatheringId) W on W.gatheringId = RPP.gatheringId
-  LEFT JOIN RunningLog RL ON RL.userId = P.postUserId AND RL.gatheringId = R.gatheringId;
+  LEFT OUTER JOIN RunningLog RL ON RL.gatheringId = R.gatheringId AND RL.userId = ${userId};;
   `;
   const [Rows] = await connection.query(Query, userId);
   return Rows;
