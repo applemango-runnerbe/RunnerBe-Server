@@ -370,6 +370,14 @@ async function getGatheringId(connection, postId) {
   return Row[0][0]["gatheringId"];
 }
 
+// posting의 peopleNum 가져오기
+async function getPeopleNum(connection, postId) {
+  const Query = `SELECT peopleNum FROM Posting WHERE postId = ?;`;
+  const Row = await connection.query(Query, postId);
+
+  return [Row];
+}
+
 module.exports = {
   createPosting,
   userIdCheck,
@@ -391,4 +399,5 @@ module.exports = {
   getAttendTimeOver,
   getRoomId,
   getGatheringId,
+  getPeopleNum,
 };
