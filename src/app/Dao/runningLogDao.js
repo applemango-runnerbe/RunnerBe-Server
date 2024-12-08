@@ -278,7 +278,7 @@ async function getPartnerRunners(connection, gatheringId, userId, gatheringId) {
     FROM RunningPeople RP
     LEFT OUTER JOIN User U ON U.userId = RP.userId
     LEFT OUTER JOIN Running R ON R.gatheringId = RP.gatheringId
-    LEFT OUTER JOIN RunningLog RL ON RL.userId = RP.userId AND RL.gatheringId = RP.gatheringId
+    LEFT OUTER JOIN RunningLog RL ON RL.userId = RP.userId AND RL.gatheringId = RP.gatheringId AND RL.status != 'D'
     LEFT OUTER JOIN (
         SELECT targetId, stampCode
         FROM RunningLogStamp
