@@ -276,3 +276,21 @@ exports.checkPostId = async function (postId) {
     await connection.release();
   }
 };
+
+// post의 peopleNum 가져오기
+exports.getPeopleNum = async function (postId) {
+  const connection = await pool.getConnection(async (conn) => conn);
+  try {
+    const getPeopleNumResult = await postingDao.getPeopleNum(
+      connection,
+      postId
+    );
+
+    return getPeopleNumResult;
+  } catch (err) {
+    await logger.error(`Posting-getPeopleNum Provider error: ${err.message}`);
+    return errResponse(baseResponse.DB_ERROR);
+  } finally {
+    await connection.release();
+  }
+};
