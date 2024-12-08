@@ -50,6 +50,9 @@ exports.sendRequest = async function (req, res) {
     postId
   );
 
+  // 참여 신청 인원이 최대 신청 가능 인원을 초과했는 지 체크
+  const checkPostingPeopleNum = await postingProvider.getPeopleNum(postId);
+
   // if (checkAlreadyapplyNotD.length != 0) {
   //   return res.send(response(baseResponse.ALREADY_APPLY));
   // }
