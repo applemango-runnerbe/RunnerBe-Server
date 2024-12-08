@@ -257,7 +257,7 @@ async function getCheckGivenStamp(connection, gatheringId, userId, targetId) {
 // 특정인이 받은 스탬프 목록 조회
 async function getDetailStampInfo(connection, gatheringId, targetId) {
   const selectDetailStampInfoQuery = `
-    SELECT U.userId, U.nickname, U.profileImageUrl, CASE WHEN RL.status = 'D' THEN NULL ELSE R.logId END AS logId, RS.stampCode
+    SELECT U.userId, U.nickname, U.profileImageUrl, CASE WHEN R.status = 'D' THEN NULL ELSE R.logId END AS logId, RS.stampCode
     FROM RunningLogStamp RS
     INNER JOIN User U on U.userId = RS.userId
     LEFT OUTER JOIN RunningLog R on R.userId = RS.userId AND R.gatheringId = RS.gatheringId
