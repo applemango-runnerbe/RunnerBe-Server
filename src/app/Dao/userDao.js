@@ -862,8 +862,7 @@ async function getMyRunning2(connection, userId) {
   INNER JOIN (SELECT * FROM RunningPeople WHERE userId = ?) RPP on R.gatheringId = RPP.gatheringId
   INNER JOIN (select R.gatheringId, IF(COUNT(*) = SUM(IF(whetherCheck = 'Y', 1, 0)), 'Y', 'N') as whetherCheck from RunningPeople
   inner join Running R on RunningPeople.gatheringId = R.gatheringId group by R.gatheringId) W on W.gatheringId = RPP.gatheringId
-  LEFT OUTER JOIN RunningLog RL ON RL.gatheringId = R.gatheringId AND RL.userId = ${userId} AND RL.status != 'D'
-  WHERE W.whetherCheck = 'Y';
+  LEFT OUTER JOIN RunningLog RL ON RL.gatheringId = R.gatheringId AND RL.userId = ${userId} AND RL.status != 'D';
   `;
   const [Rows] = await connection.query(Query, userId);
   return Rows;
@@ -884,7 +883,7 @@ async function getUserRunning2(connection, userId) {
   FROM Posting P
   INNER JOIN User U on U.userId = P.postUserId
   INNER JOIN Running R on R.postId = P.postId
-  INNER JOIN (SELECT * FROM RunningPeople WHERE userId = ? AND whetherCheck = 'Y') RPP on R.gatheringId = RPP.gatheringId
+  INNER JOIN (SELECT * FROM RunningPeople WHERE userId = ?) RPP on R.gatheringId = RPP.gatheringId
   LEFT OUTER JOIN RunningLog RL ON RL.userId = P.postUserId AND RL.gatheringId = R.gatheringId
   ORDER BY gatheringTime;
   `;
