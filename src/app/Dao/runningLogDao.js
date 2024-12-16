@@ -217,7 +217,7 @@ async function getPartnerRunnerCount(connection, gatheringId) {
   const selectPartnerRunnerCountQuery = `
     SELECT COUNT(*) AS count
     FROM RunningPeople
-    WHERE gatheringId = ? AND whetherCheck = 'Y';
+    WHERE gatheringId = ?;
   `;
   const [row] = await connection.query(
     selectPartnerRunnerCountQuery,
@@ -284,7 +284,7 @@ async function getPartnerRunners(connection, gatheringId, userId, gatheringId) {
         FROM RunningLogStamp
         WHERE gatheringId = ?
     ) RS ON RS.targetId = RP.userId
-    WHERE RP.userId != ? AND RP.gatheringId = ? AND RP.whetherCheck = 'Y';
+    WHERE RP.userId != ? AND RP.gatheringId = ?;
   `;
   const [row] = await connection.query(selectPartnerRunnersQuery, [
     gatheringId,
