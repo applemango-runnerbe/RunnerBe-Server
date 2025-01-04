@@ -162,6 +162,7 @@ exports.getRunners = async function (userId, gatheringId) {
 
     const getPartnerRunners = await runningLogDao.getPartnerRunners(
       connection,
+      userId,
       gatheringId,
       userId,
       gatheringId

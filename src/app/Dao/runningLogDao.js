@@ -271,22 +271,36 @@ async function getDetailStampInfo(connection, gatheringId, targetId) {
 }
 
 // 함께한 러너 리스트 조회
-async function getPartnerRunners(connection, gatheringId, userId, gatheringId) {
+async function getPartnerRunners(
+  connection,
+  userId,
+  gatheringId,
+  userId,
+  gatheringId
+) {
   const selectPartnerRunnersQuery = `
-    SELECT RP.userId, U.nickname, U.profileImageUrl, CASE WHEN RL.status = 'D' THEN NULL ELSE RL.logId END AS logId,
-           RL.isOpened, RS.stampCode, CASE WHEN RP.userId = R.repUserId THEN 1 ELSE 0 END AS isCaptain
-    FROM RunningPeople RP
-    LEFT OUTER JOIN User U ON U.userId = RP.userId
-    LEFT OUTER JOIN Running R ON R.gatheringId = RP.gatheringId
-    LEFT OUTER JOIN RunningLog RL ON RL.userId = RP.userId AND RL.gatheringId = RP.gatheringId AND RL.status != 'D'
-    LEFT OUTER JOIN (
-        SELECT targetId, stampCode
-        FROM RunningLogStamp
-        WHERE gatheringId = ?
-    ) RS ON RS.targetId = RP.userId
-    WHERE RP.userId != ? AND RP.gatheringId = ?;
+      SELECT RP.userId, U.nickname, U.profileImageUrl, 
+            CASE WHEN RL.status = 'D' THEN NULL ELSE RL.logId END AS logId,
+            RL.isOpened, 
+            CASE WHEN RS.userId = ? THEN RS.stampCode ELSE NULL END AS stampCode,
+            CASE WHEN RP.userId = R.repUserId THEN 1 ELSE 0 END AS isCaptain
+      FROM RunningPeople RP
+      LEFT OUTER JOIN User U ON U.userId = RP.userId
+      LEFT OUTER JOIN Running R ON R.gatheringId = RP.gatheringId
+      LEFT OUTER JOIN RunningLog RL ON RL.userId = RP.userId AND RL.gatheringId = RP.gatheringId AND RL.status != 'D'
+      LEFT OUTER JOIN (
+          SELECT userId, targetId, stampCode
+          FROM (
+              SELECT userId, targetId, stampCode, ROW_NUMBER() OVER (PARTITION BY targetId ORDER BY createdAt DESC) AS RowNum
+              FROM RunningLogStamp
+              WHERE gatheringId = ?
+          ) FilteredRS
+          WHERE RowNum = 1
+      ) RS ON RS.targetId = RP.userId
+      WHERE RP.userId != ? AND RP.gatheringId = ?;
   `;
   const [row] = await connection.query(selectPartnerRunnersQuery, [
+    userId,
     gatheringId,
     userId,
     gatheringId,
